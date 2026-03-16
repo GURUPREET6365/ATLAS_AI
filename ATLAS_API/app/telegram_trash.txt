@@ -1,0 +1,36 @@
+"""
+ TEXT:
+
+ {'update_id': 72763059, 'message': {'message_id': 118, 'from': {'id': 8779748119, 'is_bot': False, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'language_code': 'en'}, 'chat': {'id': 8779748119, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'type': 'private'}, 'date': 1773601359, 'text': 'dgrf'}}
+
+ EMOJI:
+
+ {'update_id': 72763080, 'message': {'message_id': 143, 'from': {'id': 8779748119, 'is_bot': False, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'language_code': 'en'}, 'chat': {'id': 8779748119, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'type': 'private'}, 'date': 1773603745, 'text': '😎😉'}}
+
+STICKER:
+
+{'update_id': 72763081, 'message': {'message_id': 145, 'from': {'id': 8779748119, 'is_bot': False, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'language_code': 'en'}, 'chat': {'id': 8779748119, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'type': 'private'}, 'date': 1773603803, 'sticker': {'width': 512, 'height': 512, 'emoji': '👋', 'set_name': 'BobbyTurtle', 'is_animated': True, 'is_video': False, 'type': 'regular', 'thumbnail': {'file_id': 'AAMCAgADGQEAAwhps2DlEURpYOWhLr6Zs4ssth39QgAC9wEAAhZCawo59nBvtGN_xAEAB20AAzoE', 'file_unique_id': 'AQAD9wEAAhZCawpy', 'file_size': 5920, 'width': 128, 'height': 128}, 'thumb': {'file_id': 'AAMCAgADGQEAAwhps2DlEURpYOWhLr6Zs4ssth39QgAC9wEAAhZCawo59nBvtGN_xAEAB20AAzoE', 'file_unique_id': 'AQAD9wEAAhZCawpy', 'file_size': 5920, 'width': 128, 'height': 128}, 'file_id': 'CAACAgIAAxkBAAMIabNg5RFEaWDloS6-mbOLLLYd_UIAAvcBAAIWQmsKOfZwb7Rjf8Q6BA', 'file_unique_id': 'AgAD9wEAAhZCawo', 'file_size': 19086}}}
+
+
+GIFS:
+
+{'update_id': 72763082, 'message': {'message_id': 147, 'from': {'id': 8779748119, 'is_bot': False, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'language_code': 'en'}, 'chat': {'id': 8779748119, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'type': 'private'}, 'date': 1773603822, 'animation': {'file_name': '63.mp4', 'mime_type': 'video/mp4', 'duration': 1, 'width': 960, 'height': 720, 'thumbnail': {'file_id': 'AAMCAgADGQEAA0JptB-dl4aYHas9p62VFcE1SdzaVQACmBAAArtiUUjIfJnIRksHagEAB20AAzoE', 'file_unique_id': 'AQADmBAAArtiUUhy', 'file_size': 13051, 'width': 320, 'height': 240}, 'thumb': {'file_id': 'AAMCAgADGQEAA0JptB-dl4aYHas9p62VFcE1SdzaVQACmBAAArtiUUjIfJnIRksHagEAB20AAzoE', 'file_unique_id': 'AQADmBAAArtiUUhy', 'file_size': 13051, 'width': 320, 'height': 240}, 'file_id': 'CgACAgIAAxkBAANCabQfnZeGmB2rPaetlRXBNUnc2lUAApgQAAK7YlFIyHyZyEZLB2o6BA', 'file_unique_id': 'AgADmBAAArtiUUg', 'file_size': 175728}, 'document': {'file_name': '63.mp4', 'mime_type': 'video/mp4', 'thumbnail': {'file_id': 'AAMCAgADGQEAA0JptB-dl4aYHas9p62VFcE1SdzaVQACmBAAArtiUUjIfJnIRksHagEAB20AAzoE', 'file_unique_id': 'AQADmBAAArtiUUhy', 'file_size': 13051, 'width': 320, 'height': 240}, 'thumb': {'file_id': 'AAMCAgADGQEAA0JptB-dl4aYHas9p62VFcE1SdzaVQACmBAAArtiUUjIfJnIRksHagEAB20AAzoE', 'file_unique_id': 'AQADmBAAArtiUUhy', 'file_size': 13051, 'width': 320, 'height': 240}, 'file_id': 'CgACAgIAAxkBAANCabQfnZeGmB2rPaetlRXBNUnc2lUAApgQAAK7YlFIyHyZyEZLB2o6BA', 'file_unique_id': 'AgADmBAAArtiUUg', 'file_size': 175728}}}
+
+
+IMAGE:
+
+{'update_id': 72763120, 'message': {'message_id': 220, 'from': {'id': 8779748119, 'is_bot': False, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'language_code': 'en'}, 'chat': {'id': 8779748119, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'type': 'private'}, 'date': 1773640450, 'photo': [{'file_id': 'AgACAgUAAxkBAAPcabebAmLJuUqK9I5aIZyS_u4eRVcAAjYNaxvWGcBVG-GMJm8_Xf0BAAMCAANzAAM6BA', 'file_unique_id': 'AQADNg1rG9YZwFV4', 'file_size': 1992, 'width': 90, 'height': 90}, {'file_id': 'AgACAgUAAxkBAAPcabebAmLJuUqK9I5aIZyS_u4eRVcAAjYNaxvWGcBVG-GMJm8_Xf0BAAMCAANtAAM6BA', 'file_unique_id': 'AQADNg1rG9YZwFVy', 'file_size': 36215, 'width': 320, 'height': 320}, {'file_id': 'AgACAgUAAxkBAAPcabebAmLJuUqK9I5aIZyS_u4eRVcAAjYNaxvWGcBVG-GMJm8_Xf0BAAMCAAN4AAM6BA', 'file_unique_id': 'AQADNg1rG9YZwFV9', 'file_size': 148405, 'width': 800, 'height': 800}, {'file_id': 'AgACAgUAAxkBAAPcabebAmLJuUqK9I5aIZyS_u4eRVcAAjYNaxvWGcBVG-GMJm8_Xf0BAAMCAAN5AAM6BA', 'file_unique_id': 'AQADNg1rG9YZwFV-', 'file_size': 190418, 'width': 1024, 'height': 1024}]}}
+
+
+{'update_id': 72763127, 'message': {'message_id': 239, 'from': {'id': 8779748119, 'is_bot': False, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'language_code': 'en'}, 'chat': {'id': 8779748119, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'type': 'private'}, 'date': 1773643576, 'photo': [{'file_id': 'AgACAgUAAxkBAAPgabecwzZlzKj3i1wLUfjJwUu9w-YAAjsNaxvWGcBVInVLeSotz3cBAAMCAANzAAM6BA', 'file_unique_id': 'AQADOw1rG9YZwFV4', 'file_size': 1801, 'width': 90, 'height': 90}, {'file_id': 'AgACAgUAAxkBAAPgabecwzZlzKj3i1wLUfjJwUu9w-YAAjsNaxvWGcBVInVLeSotz3cBAAMCAANtAAM6BA', 'file_unique_id': 'AQADOw1rG9YZwFVy', 'file_size': 36947, 'width': 320, 'height': 320}, {'file_id': 'AgACAgUAAxkBAAPgabecwzZlzKj3i1wLUfjJwUu9w-YAAjsNaxvWGcBVInVLeSotz3cBAAMCAAN4AAM6BA', 'file_unique_id': 'AQADOw1rG9YZwFV9', 'file_size': 170012, 'width': 800, 'height': 800}, {'file_id': 'AgACAgUAAxkBAAPgabecwzZlzKj3i1wLUfjJwUu9w-YAAjsNaxvWGcBVInVLeSotz3cBAAMCAAN5AAM6BA', 'file_unique_id': 'AQADOw1rG9YZwFV-', 'file_size': 218079, 'width': 1024, 'height': 1024}], 'caption': 'ATLAS-AI'}}
+
+
+VIDEO:
+
+{'update_id': 72763121, 'message': {'message_id': 222, 'from': {'id': 8779748119, 'is_bot': False, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'language_code': 'en'}, 'chat': {'id': 8779748119, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'type': 'private'}, 'date': 1773640530, 'video': {'duration': 4, 'width': 720, 'height': 1280, 'mime_type': 'video/mp4', 'thumbnail': {'file_id': 'AAMCBQADGQEAA95pt5tSUuZG_jh0gnvT35Gbwo48OAAC3h0AAtYZwFUOCDzUgukaRAEAB20AAzoE', 'file_unique_id': 'AQAD3h0AAtYZwFVy', 'file_size': 13727, 'width': 180, 'height': 320}, 'thumb': {'file_id': 'AAMCBQADGQEAA95pt5tSUuZG_jh0gnvT35Gbwo48OAAC3h0AAtYZwFUOCDzUgukaRAEAB20AAzoE', 'file_unique_id': 'AQAD3h0AAtYZwFVy', 'file_size': 13727, 'width': 180, 'height': 320}, 'file_id': 'BAACAgUAAxkBAAPeabebUlLmRv44dIJ709-Rm8KOPDgAAt4dAALWGcBVDgg81ILpGkQ6BA', 'file_unique_id': 'AgAD3h0AAtYZwFU', 'file_size': 2307937}}}
+
+DOCUMENT/PDF:
+{'update_id': 72763124, 'message': {'message_id': 228, 'from': {'id': 8779748119, 'is_bot': False, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'language_code': 'en'}, 'chat': {'id': 8779748119, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'type': 'private'}, 'date': 1773641774, 'document': {'file_name': '2025-580.pdf.pdf', 'mime_type': 'application/pdf', 'file_id': 'BQACAgUAAxkBAAPkabegLnlU0Mjkap2u5KW482CEGU0AAvMdAALWGcBV_RE3pXPxqiI6BA', 'file_unique_id': 'AgAD8x0AAtYZwFU', 'file_size': 142940}, 'caption': 'Edit, Sign and Share PDF files on the go. Download the Acrobat Reader app: https://adobeacrobat.app.link/Mhhs4GmNsxb', 'caption_entities': [{'offset': 75, 'length': 41, 'type': 'url'}]}}
+
+
+ """
