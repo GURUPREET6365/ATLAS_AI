@@ -32,5 +32,9 @@ VIDEO:
 DOCUMENT/PDF:
 {'update_id': 72763124, 'message': {'message_id': 228, 'from': {'id': 8779748119, 'is_bot': False, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'language_code': 'en'}, 'chat': {'id': 8779748119, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'type': 'private'}, 'date': 1773641774, 'document': {'file_name': '2025-580.pdf.pdf', 'mime_type': 'application/pdf', 'file_id': 'BQACAgUAAxkBAAPkabegLnlU0Mjkap2u5KW482CEGU0AAvMdAALWGcBV_RE3pXPxqiI6BA', 'file_unique_id': 'AgAD8x0AAtYZwFU', 'file_size': 142940}, 'caption': 'Edit, Sign and Share PDF files on the go. Download the Acrobat Reader app: https://adobeacrobat.app.link/Mhhs4GmNsxb', 'caption_entities': [{'offset': 75, 'length': 41, 'type': 'url'}]}}
 
+with built in captions:
+{'update_id': 72763166, 'message': {'message_id': 333, 'from': {'id': 8779748119, 'is_bot': False, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'language_code': 'en'}, 'chat': {'id': 8779748119, 'first_name': 'Gurupreet', 'username': 'GurupreetKumar', 'type': 'private'}, 'date': 1773671702, 'document': {'file_name': 'Contest 1_260311_004352.PDF', 'mime_type': 'application/pdf', 'file_id': 'BQACAgUAAxkBAAIBTWm4FRZOMsF7LbgZpEXpr3UKlStuAALEHwAC1hnAVQG18k2grzuwOgQ', 'file_unique_id': 'AgADxB8AAtYZwFU', 'file_size': 521687}, 'caption': 'Edit, Sign and Share PDF files on the go. Download the Acrobat Reader app: https://adobeacrobat.app.link/Mhhs4GmNsxb', 'caption_entities': [{'offset': 75, 'length': 41, 'type': 'url'}]}}
+
+
 
  """

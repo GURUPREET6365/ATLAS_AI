@@ -1,6 +1,10 @@
 from fastapi import APIRouter, Request
 from ATLAS_API.app.utilities.utilities import send_message, get_file_path
 from google import genai
+from ATLAS_API.app.utilities.bot_command import BotCommandsClassifier
+
+# creating instance of BotCommandsClassifier
+classifier = BotCommandsClassifier()
 
 router = APIRouter(prefix="/telegram", tags=["telegram"])
 
@@ -46,12 +50,28 @@ async def webhook(request: Request):
                 caption = data['message'].get('caption')
                 get_file_path(file_id, "video", caption, chat_id)
 
+            elif data['message'].get('document'):
+                file_id=data['message']['document'].get('file_id')
+                file_name=data['message']['document'].get('file_name')
+                get_file_path(file_id, "document", file_name, chat_id)
+
+            # extracting entities so that inside that contains type i.e bot commands.
+            elif data['message'].get('entities'):
+            #     checking that is it a bot command?
+                entities = data['message'].get('entities')[0].get('type')
+                if entities == 'bot_command':
+                    classifier.classify(text, chat_id)
+
+
             else:
                 # This client will auto fetch the gemini api key named GEMINI_API_KEY from environment
                 # client = genai.Client()
                 #
                 # response = client.models.generate_content(
-                #     model="gemini-3-flash-preview", contents=f"{text}"
+                #     model="gemini-3-flash-preview", contents=f"{text} "
+                #                                              f"reply short"
+                #                                              f"you are ATLAS AI assistant works for me."
+                #                                              f"details: my name is Gurupreet, a programmer, a jee aspirant"
                 # )
                 # # print(response)
                 # send_message(chat_id=chat_id, text=response.text)

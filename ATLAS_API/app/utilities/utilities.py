@@ -69,3 +69,14 @@ def get_file_binary(file_path, file_type:str, caption, chat_id):
             send_message(chat_id, f"Your videos has been saved successfully with name {caption}.mp4")
         else:
             send_message(chat_id, "send the video with caption, as that name will be used to save the video. Use underscore instead of space.")
+
+    if file_type == 'document':
+        document_path = BASE_DIR/'telegram_files'/'documents'
+        if caption is not None:
+            with open(f'{document_path}/{caption}', 'wb') as f:
+                f.write(response.content)
+
+            send_message(chat_id, f"Your document has been saved successfully with name {caption}")
+        else:
+            send_message(chat_id,
+                         "send the named document, as that name will be used to save the document.")
