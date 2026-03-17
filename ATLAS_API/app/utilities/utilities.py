@@ -2,7 +2,11 @@
 import requests
 from dotenv import load_dotenv
 import os
+from sqlalchemy.orm import Session
 from pathlib import Path
+from ATLAS_API.app.database.database import get_db, sessionLocal
+from ATLAS_API.app.database.models import Files
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 """
@@ -32,51 +36,80 @@ This is the response for photo:
 
 {'ok': True, 'result': {'file_id': 'AgACAgUAAxkBAAPgabecwzZlzKj3i1wLUfjJwUu9w-YAAjsNaxvWGcBVInVLeSotz3cBAAMCAAN5AAM6BA', 'file_unique_id': 'AQADOw1rG9YZwFV-', 'file_size': 218079, 'file_path': 'photos/file_0.jpg'}}
 """
-def get_file_path(file_id, file_type:str, caption, chat_id):
+def get_file_path(file_id, file_type:str, caption, chat_id, file_unique_id):
     file_path_url = F'https://api.telegram.org/bot{BOT_TOKEN}/getFile?file_id={file_id}'
 
     response = requests.get(file_path_url)
     file = response.json()
     file_path = file['result']['file_path']
 
-    get_file_binary(file_path, file_type, caption, chat_id)
+    get_file_binary(file_path, file_type, caption, chat_id, file_id, file_unique_id=file_unique_id)
+
+# I am creating the db session manually, as depends works for only routers
 
 # this function is for getting the raw file binary:
-def get_file_binary(file_path, file_type:str, caption, chat_id):
+def get_file_binary(file_path, file_type:str, caption, chat_id,file_id,file_unique_id):
     file_get_binary_url = f'https://api.telegram.org/file/bot{BOT_TOKEN}/{file_path}'
-
+    db = sessionLocal()
     response = requests.get(file_get_binary_url)
     # print(response.content) here the binary data will be returned
 
+    file = db.query(Files).filter(Files.file_name == caption).first()
+    if file is not None:
+        # else if file name exists,
+        send_message(chat_id, "The file with that name is already exists.")
+
+    # else if no file is of the same name.
     # writing the binary into the file
-    if file_type == 'photo':
-        image_path = BASE_DIR/'telegram_files'/'photos'
-        if caption is not None:
-            # print(os.getcwd())
-            with open(f'{image_path}/{caption}.jpg', 'wb') as f:
-                f.write(response.content)
+    else:
 
-            send_message(chat_id, f"Your images has been saved successfully with name {caption}.jpg")
+        if file_type == 'photo':
+            image_path = BASE_DIR/'telegram_files'/'photos'/f'{caption}.jpg'
+            if caption is not None:
+                with open(f'{image_path}', 'wb') as f:
+                    f.write(response.content)
 
-        else:
-            send_message(chat_id, "send the image with caption, as that name will be used to save the image. Use underscore instead of space.")
-    if file_type == 'video':
-        video_path = BASE_DIR/'telegram_files'/'videos'
-        if caption is not None:
-            with open(f'{video_path}/{caption}.mp4', 'wb') as f:
-                f.write(response.content)
+                new_file = Files(file_name=caption,file_id=file_id, file_unique_id=file_unique_id, url=str(image_path), file_type='image')
 
-            send_message(chat_id, f"Your videos has been saved successfully with name {caption}.mp4")
-        else:
-            send_message(chat_id, "send the video with caption, as that name will be used to save the video. Use underscore instead of space.")
+                db.add(new_file)
+                db.commit()
 
-    if file_type == 'document':
-        document_path = BASE_DIR/'telegram_files'/'documents'
-        if caption is not None:
-            with open(f'{document_path}/{caption}', 'wb') as f:
-                f.write(response.content)
+                send_message(chat_id, f"Your images has been saved successfully with name {caption}.jpg")
 
-            send_message(chat_id, f"Your document has been saved successfully with name {caption}")
-        else:
-            send_message(chat_id,
-                         "send the named document, as that name will be used to save the document.")
+            else:
+                send_message(chat_id, "send the image with caption, as that name will be used to save the image. Use underscore instead of space.")
+        if file_type == 'video':
+            print("..........")
+            print('now entered in getting video')
+            video_path = BASE_DIR/'telegram_files'/'videos'/f'{caption}.mp4'
+            if caption is not None:
+                with open(f'{video_path}', 'wb') as f:
+                    f.write(response.content)
+                print('now going to save in db')
+                new_file = Files(file_name=caption, file_id=file_id, file_unique_id=file_unique_id, url=str(video_path), file_type='video')
+
+                db.add(new_file)
+                db.commit()
+
+                send_message(chat_id, f"Your videos has been saved successfully with name {caption}.mp4")
+
+            else:
+                send_message(chat_id, "send the video with caption, as that name will be used to save the video. Use underscore instead of space.")
+
+        if file_type == 'document':
+            document_path = BASE_DIR/'telegram_files'/'documents'/f'{caption}'
+            if caption is not None:
+                with open(f'{document_path}', 'wb') as f:
+                    f.write(response.content)
+
+                new_file = Files(file_name=caption, file_id=file_id, file_unique_id=file_unique_id, url=str(document_path),
+                                 file_type='document')
+
+                db.add(new_file)
+                db.commit()
+
+                send_message(chat_id, f"Your document has been saved successfully with name {caption}")
+            else:
+                send_message(chat_id,
+                             "send the named document, as that name will be used to save the document.")
+

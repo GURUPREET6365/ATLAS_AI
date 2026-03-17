@@ -28,6 +28,7 @@ class BotCommandsClassifier:
     def __init__(self):
         self.chat_id = None
         self.commands = {
+            "/help":self.help,
             "/start": self.start,
             # "/all_images": self.all_images,
             # "/all_videos": self.all_videos,
@@ -43,20 +44,24 @@ class BotCommandsClassifier:
     # now creating a functions for each commands.
 
     def start(self):
-        send_message(self.chat_id, "🚀 *Atlas Assistant Activated*\n\n"
+        text = ("🚀 *Atlas Assistant Activated*\n\n"
                                 "Hello Boss! 👋\n"
                                 "I'm fully online and ready to execute your commands.\n\n"
-                                "⚙️ *Capabilities*\n"
-                                "• Fetch images and videos\n"
-                                "• Generate bills\n"
-                                "• Answer questions\n"
-                                "• Execute automation tasks\n\n"
-                                "📜 *Available Commands*\n"
-                                "/start — Initialize assistant\n"
-                                "/all_images — Get all images\n"
-                                "/all_videos — Get all videos\n"
-                                "/bill — Generate bill\n"
                                 "/help — Show all commands\n\n"
                                 "💡 _Just send a command and I'll handle the rest._")
+        send_message(self.chat_id, text)
 
+    def help(self):
+        help_text = (
+            "🤖 *Atlas Commands*\n\n"
 
+            "🚀 *Basic Commands*\n"
+            "/start - Start the bot / Welcome message\n"
+            "/help - Show this help menu\n\n"
+
+            "📂 *Media Commands*\n"
+            "/all_images - View all saved images\n"
+            "/all_videos - View all saved videos\n"
+        )
+
+        send_message(self.chat_id, help_text)
