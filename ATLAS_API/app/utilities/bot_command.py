@@ -1,4 +1,8 @@
 from ATLAS_API.app.utilities.utilities import send_message
+from ATLAS_API.app.database.database import sessionLocal
+# creating the db connection, so that I can execute it
+
+
 
 """
 1. Functions Can Be Stored in Variables
@@ -26,13 +30,15 @@ x -> hello()
 
 class BotCommandsClassifier:
     def __init__(self):
+        self.db = sessionLocal()
+
         self.chat_id = None
         self.commands = {
-            "/help":self.help,
-            "/start": self.start,
-            # "/all_images": self.all_images,
-            # "/all_videos": self.all_videos,
+            "/start":self.start,
+            "/expense":self.expense
+
             # "/bill": self.bill
+
         }
 
     def classify(self, command, chat_id):
@@ -44,24 +50,29 @@ class BotCommandsClassifier:
     # now creating a functions for each commands.
 
     def start(self):
-        text = ("🚀 *Atlas Assistant Activated*\n\n"
-                                "Hello Boss! 👋\n"
-                                "I'm fully online and ready to execute your commands.\n\n"
-                                "/help — Show all commands\n\n"
-                                "💡 _Just send a command and I'll handle the rest._")
-        send_message(self.chat_id, text)
-
-    def help(self):
         help_text = (
+            "🚀 * Atlas Assistant Activated * \n\n"
+            "Hello Boss! 👋\n"
             "🤖 *Atlas Commands*\n\n"
 
             "🚀 *Basic Commands*\n"
-            "/start - Start the bot / Welcome message\n"
-            "/help - Show this help menu\n\n"
-
-            "📂 *Media Commands*\n"
-            "/all_images - View all saved images\n"
-            "/all_videos - View all saved videos\n"
+            "/start - Start the bot / Welcome message\n\n"
+            "/expense - Click to see the format of sending the expense.\n\n"
         )
 
         send_message(self.chat_id, help_text)
+
+    def expense(self):
+
+        text = ("""
+yourname expense
+money:reason
+money:reason
+
+You can register your fix daily expense, where you can only send 'yourname expense' to mark the fix expense you do, like going to office, coaching, college, etc
+
+NOTE: Don't use comma or anything.
+"""
+        )
+
+        send_message(self.chat_id, text)

@@ -1,19 +1,19 @@
 from .database import Base
-from sqlalchemy import Column, Integer, String, DateTime, Boolean
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.sql import func
-from sqlalchemy import ForeignKey, CheckConstraint, UniqueConstraint
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy import text
 
-class Files(Base):
-    __tablename__ = "files"
-    id = Column(Integer, primary_key=True)
-    file_id = Column(String)
-    file_unique_id = Column(String)
-    file_name = Column(String)
-    url = Column(String)
-    file_type = Column(String)
-    uploaded_at = Column(
+
+class Expenses(Base):
+    __tablename__ = 'expenses'
+
+    id = Column(Integer, primary_key=True, nullable=False, index=True)
+    user = Column(String, nullable=False)
+    amount = Column(Integer, nullable=True)
+    reason = Column(String, nullable=True)
+    expense_date = Column(
         DateTime(timezone=True),
         server_default=func.now()
     )

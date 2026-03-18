@@ -1,4 +1,3 @@
 .env
 .venv
-ATLAS_API/app/telegram_files/
-alembic/versions/*/
+
