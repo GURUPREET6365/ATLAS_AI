@@ -1,10 +1,11 @@
 # Here I will create the utilities function.
+import time
+
 import requests
 from dotenv import load_dotenv
 import os
-from ATLAS_API.app.database.database import sessionLocal
-
-
+import psutil
+import asyncio
 
 
 """
@@ -26,4 +27,20 @@ def send_message(chat_id, text):
         "chat_id": chat_id,
         "text": text
     })
+
+GURUPREET_CHAT_ID= os.getenv('GURUPREET_CHAT_ID')
+
+async def check_battery():
+    while True:
+        percent, _, is_charging = psutil.sensors_battery()
+        if percent <= 60:
+            text = f"Battery is {int(percent)}% and it's is very low.\n{'Battery is charging' if is_charging else 'Battery is not charging'}"
+            send_message(GURUPREET_CHAT_ID, text)
+
+
+        # This asyncio.sleep, is used because it sleep and don't stop the other function from running.
+        await asyncio.sleep(600)
+
+
+
 

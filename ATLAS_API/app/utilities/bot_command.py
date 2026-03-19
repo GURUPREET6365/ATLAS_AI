@@ -1,7 +1,7 @@
 from ATLAS_API.app.utilities.utilities import send_message
 from ATLAS_API.app.database.database import sessionLocal
 # creating the db connection, so that I can execute it
-
+import psutil
 
 
 """
@@ -35,7 +35,9 @@ class BotCommandsClassifier:
         self.chat_id = None
         self.commands = {
             "/start":self.start,
-            "/expense":self.expense
+            "/expense":self.expense,
+            "/battery":self.battery_status,
+            "/all_expense":self.all_expense,
 
             # "/bill": self.bill
 
@@ -58,6 +60,11 @@ class BotCommandsClassifier:
             "🚀 *Basic Commands*\n"
             "/start - Start the bot / Welcome message\n\n"
             "/expense - Click to see the format of sending the expense.\n\n"
+            
+            "/battery - Check that battery status.\n\n"
+            
+            "/all_expense - Check your all expense till now.\n\n"
+
         )
 
         send_message(self.chat_id, help_text)
@@ -75,4 +82,20 @@ NOTE: Don't use comma or anything.
 """
         )
 
+        send_message(self.chat_id, text)
+
+
+    def battery_status(self):
+        percent, _, is_charging = psutil.sensors_battery()
+        print(percent, is_charging)
+        text = f"your laptop is currently {f'charging and batter is at {int(percent)}%'if is_charging else f'is not charging and at {int(percent)}%'}\n\n"
+        send_message(self.chat_id, text)
+        # print('message sent')
+
+    def all_expense(self):
+        text = ("""
+yourname expense all
+
+just send this command for seeing all the expense you did till now.
+        """)
         send_message(self.chat_id, text)

@@ -1,6 +1,7 @@
 from ATLAS_API.app.utilities.utilities import send_message
 from ATLAS_API.app.database.models import Expenses
 from ATLAS_API.app.database.database import sessionLocal
+from datetime import datetime
 
 # Checking that the user sent the message is for the expense or not?
 class ExpenseManagement:
@@ -9,14 +10,15 @@ class ExpenseManagement:
         self.chat_id = None
         self.amount = None
         self.reason = None
+        self.db = sessionLocal()
 
     def check_expense_message(self, data, chat_id):
         self.chat_id = chat_id
         # splitting the data with comma
         split_data = data.split('\n')
-
         # taking the first element that contains the data of expense
         user_name_expense = split_data[0].strip()
+
         if user_name_expense.lower() == "gurupreet expense" or user_name_expense.lower() == "jyoti expense" or user_name_expense.lower() == "archana expense" or user_name_expense.lower() == "gurumeet expense":
 
             username = user_name_expense.lower().replace(" expense", "")
@@ -32,6 +34,7 @@ class ExpenseManagement:
                 return True
             # This is for the normal expenses/default only expenses
             else:
+                # print('entering here......')
                 if username == 'gurupreet':
                     self.amount = 84
                     self.reason = 'coaching'
@@ -40,14 +43,18 @@ class ExpenseManagement:
 
                 return True
 
+        # This condition is for the seeing all expenses.
+        elif user_name_expense.lower() == "gurupreet expense all" or user_name_expense.lower() == "jyoti expense all" or user_name_expense.lower() == "archana expense all" or user_name_expense.lower() == "gurumeet expense all":
+            username = user_name_expense.lower().split(" ")[0]
+            print(username)
+            self.overall_expense(username)
+
+            return True
+
         else:
             return False
     def add_expense(self, username):
-        db = sessionLocal()
-
-        # print(username)
-        # print(self.chat_id)
-        # print(self.all_expense)
+        db = self.db
 
         # yaha pe ek error aa sakta hai ki jab default expense save karna hai to yaha pe self.all_expense none rahega, so hame condition lagana hai, kyunki none type can't be iterable.
         if self.all_expense is not None:
@@ -69,12 +76,31 @@ class ExpenseManagement:
 
 
 
-            send_message(self.chat_id, f"Your expense has been added to database\nYour total expense is: {total_expense}")
+            send_message(self.chat_id, f"{username}'s expenses has been added to database\nYour total expense is: {total_expense}")
             return True
 
         else:
+            total_expense = self.amount
             new_expense = Expenses(user=username, amount=self.amount, reason=self.reason)
             db.add(new_expense)
             db.commit()
-            send_message(self.chat_id, "Your default expense has been added to database")
+            send_message(self.chat_id, f"{username}'s default expenses has been added to database\nYour total expense is: {total_expense}")
+            return True
 
+    def overall_expense(self, username):
+        db = self.db
+        expense_list = []
+        expenses = db.query(Expenses).filter(Expenses.user == username).all()
+        total_expense = 0
+        for index, each_expense in enumerate(expenses):
+            date = each_expense.expense_date
+            date_str = date.date().isoformat()
+            # adding expense
+            total_expense += each_expense.amount
+            data = f"{index+1}. {each_expense.reason} = ₹{each_expense.amount} | {date_str}"
+            expense_list.append(data)
+        # joining list's element as a string.
+        result = ",\n\n".join(expense_list)
+
+        send_message(self.chat_id, f"{result}\n\nTotal expense is = ₹{total_expense}")
+        return True

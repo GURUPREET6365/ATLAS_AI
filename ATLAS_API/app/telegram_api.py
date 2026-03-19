@@ -4,16 +4,15 @@ from google import genai
 from ATLAS_API.app.utilities.bot_command import BotCommandsClassifier
 from ATLAS_API.app.utilities.expense_management import ExpenseManagement
 # creating instance of BotCommandsClassifier
-classifier = BotCommandsClassifier()
 
-expense_manager = ExpenseManagement()
 
 router = APIRouter(prefix="/telegram", tags=["telegram"])
 
 @router.post('/webhook')
 async def webhook(request: Request):
-
     data = await request.json()
+    expense_manager = ExpenseManagement()
+    # print(data)
     # extracting chat id
     chat_id=data['message']['chat']['id']
     text = data['message'].get('text')
@@ -35,6 +34,9 @@ async def webhook(request: Request):
 
 
                 elif data['message'].get('entities'):
+                    classifier = BotCommandsClassifier()
+
+
                 #     checking that is it a bot command?
                     entities = data['message'].get('entities')[0].get('type')
                     if entities == 'bot_command':
@@ -42,17 +44,17 @@ async def webhook(request: Request):
 
                 else:
                     # This client will auto fetch the gemini api key named GEMINI_API_KEY from environment
-                    # client = genai.Client()
-                    #
-                    # response = client.models.generate_content(
-                    #     model="gemini-3-flash-preview", contents=f"{text} "
-                    #                                              f"reply short"
-                    #                                              f"you are ATLAS AI assistant works for me."
-                    #                                              f"details: my name is Gurupreet"
-                    # )
-                    # # print(response)
-                    # send_message(chat_id=chat_id, text=response.text)
-                    send_message(chat_id=chat_id, text="wait for few hours")
+                    client = genai.Client()
+
+                    response = client.models.generate_content(
+                        model="gemini-3-flash-preview", contents=f"{text} "
+                                                                 f"reply short"
+                                                                 f"you are ATLAS AI assistant works for me."
+                                                                 f"details: my name is Gurupreet"
+                    )
+                    # print(response)
+                    send_message(chat_id=chat_id, text=response.text)
+                    # send_message(chat_id=chat_id, text="wait for few hours")
     except Exception as e:
         send_message(chat_id, f"The error is: {e}")
 
