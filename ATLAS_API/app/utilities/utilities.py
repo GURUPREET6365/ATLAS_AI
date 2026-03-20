@@ -37,7 +37,9 @@ async def check_battery():
             text = f"Battery is {int(percent)}% and it's is very low.\n{'Battery is charging' if is_charging else 'Battery is not charging'}"
             send_message(GURUPREET_CHAT_ID, text)
 
-
+        elif percent >=95 and is_charging:
+            text = f"Battery is {int(percent)}% and it's is about to full.\n{'Battery is charging' if is_charging else 'Battery is not charging'}"
+            send_message(GURUPREET_CHAT_ID, text)
         # This asyncio.sleep, is used because it sleep and don't stop the other function from running.
         await asyncio.sleep(600)
 
