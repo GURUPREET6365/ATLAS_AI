@@ -1,12 +1,14 @@
 # Here I will create the utilities function.
-import time
-
+import json
 import requests
-from dotenv import load_dotenv
 import os
 import psutil
 import asyncio
+from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 """
 base dir making using pathlib library of the python.
@@ -44,5 +46,19 @@ async def check_battery():
         await asyncio.sleep(600)
 
 
+def chat_id_verification(chat_id):
+    try:
+        with open(f"{BASE_DIR}/SECURED_DATA/chat_id_verification.json") as file:
+            chat_id_verification = json.load(file)
 
+        # we are using item because before taking key value, it is first converted into dict
+        for username, json_chat_id in chat_id_verification.items():
+            if json_chat_id == chat_id:
+                return True, username
+
+            else:
+                return False, None
+
+    except FileNotFoundError:
+        send_message(GURUPREET_CHAT_ID, 'Hey boss! The file for chat id verification was not found.')
 

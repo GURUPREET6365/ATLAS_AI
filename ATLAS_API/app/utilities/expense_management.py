@@ -1,7 +1,7 @@
-from ATLAS_API.app.utilities.utilities import send_message
+from ATLAS_API.app.utilities.utilities import send_message, GURUPREET_CHAT_ID
 from ATLAS_API.app.database.models import Expenses
 from ATLAS_API.app.database.database import sessionLocal
-from datetime import datetime
+
 
 # Checking that the user sent the message is for the expense or not?
 class ExpenseManagement:
@@ -16,15 +16,20 @@ class ExpenseManagement:
         self.chat_id = chat_id
         # splitting the data with comma
         split_data = data.split('\n')
+        # print(split_data)
         # taking the first element that contains the data of expense
-        user_name_expense = split_data[0].strip()
+        user_name_expense = split_data[0].strip().lower()
 
-        if user_name_expense.lower() == "gurupreet expense" or user_name_expense.lower() == "jyoti expense" or user_name_expense.lower() == "archana expense" or user_name_expense.lower() == "gurumeet expense":
+        add_expense_list = ["gurupreet expense","jyoti expense", "gurumeet expense", 'market expense', "archana expense"]
 
-            username = user_name_expense.lower().replace(" expense", "")
+        check_expense_list = ["gurupreet expense all","jyoti expense all", "gurumeet expense all", 'market expense all', "archana expense all", "market expense all"]
+        if user_name_expense in add_expense_list:
+
+            username = user_name_expense.replace(" expense", "")
 
             # Checking that user also sent any other data or not?
             if len(split_data) > 1:
+                print('i am here')
                 # we are making new list where the username_expense element has been removed. It means make new list
                 # from split_data list contains from element 1 to end
                 self.all_expense = split_data[1:]
@@ -44,9 +49,9 @@ class ExpenseManagement:
                 return True
 
         # This condition is for the seeing all expenses.
-        elif user_name_expense.lower() == "gurupreet expense all" or user_name_expense.lower() == "jyoti expense all" or user_name_expense.lower() == "archana expense all" or user_name_expense.lower() == "gurumeet expense all":
-            username = user_name_expense.lower().split(" ")[0]
-            print(username)
+        elif user_name_expense in check_expense_list:
+            username = user_name_expense.split(" ")[0]
+            # print(username)
             self.overall_expense(username)
 
             return True

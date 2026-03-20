@@ -87,7 +87,7 @@ NOTE: Don't use comma or anything.
 
     def battery_status(self):
         percent, _, is_charging = psutil.sensors_battery()
-        print(percent, is_charging)
+        # print(percent, is_charging)
         text = f"your laptop is currently {f'charging and battery is at {int(percent)}%'if is_charging else f'is not charging and at {int(percent)}%'}\n\n"
         send_message(self.chat_id, text)
         # print('message sent')
