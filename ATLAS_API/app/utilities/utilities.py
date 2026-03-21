@@ -24,18 +24,24 @@ BOT_TOKEN=os.getenv('TELEGRAM_BOT_API_TOKEN')
 URL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
 # This function is for text to send the message to the telegram
-def send_message(chat_id, text):
-    requests.post(URL, json={
+def send_message(chat_id, text, keyboard=None):
+    payload = {
         "chat_id": chat_id,
-        "text": text
-    })
+        "text": text,
+    }
+
+    if keyboard:
+        payload["reply_markup"] = keyboard
+
+
+    requests.post(URL, json=payload)
 
 GURUPREET_CHAT_ID= os.getenv('GURUPREET_CHAT_ID')
 
 async def check_battery():
     while True:
         percent, _, is_charging = psutil.sensors_battery()
-        if percent <= 60:
+        if percent <= 60 and not is_charging:
             text = f"Battery is {int(percent)}% and it's is very low.\n{'Battery is charging' if is_charging else 'Battery is not charging'}"
             send_message(GURUPREET_CHAT_ID, text)
 
@@ -61,4 +67,6 @@ def chat_id_verification(chat_id):
 
     except FileNotFoundError:
         send_message(GURUPREET_CHAT_ID, 'Hey boss! The file for chat id verification was not found.')
+
+
 

@@ -66,8 +66,20 @@ class BotCommandsClassifier:
             "/all_expense - Check your all expense till now.\n\n"
 
         )
+        keyboard = {
+            "inline_keyboard": [
+                [
+                    {
+                        "text": "📊 Open Expense Form",
+                        "web_app": {
+                            "url": "https://placeexplorer.kumargurupreet2008.workers.dev/"
+                        }
+                    }
+                ]
+            ]
+        }
 
-        send_message(self.chat_id, help_text)
+        send_message(self.chat_id, help_text, keyboard)
 
     def expense(self):
 
@@ -97,5 +109,14 @@ NOTE: Don't use comma or anything.
 yourname expense all
 
 just send this command for seeing all the expense you did till now.
+
+NOTE: for seeing data on specific month or date, or between date, 
+
+Then, send data like:
+
+yourname expense all
+today or month name or from to end date
+
+NOTE: Date format should be like: year-month-date
         """)
         send_message(self.chat_id, text)

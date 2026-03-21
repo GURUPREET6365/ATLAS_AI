@@ -16,7 +16,7 @@ class ExpenseManagement:
         self.chat_id = chat_id
         # splitting the data with comma
         split_data = data.split('\n')
-        # print(split_data)
+        print(split_data)
         # taking the first element that contains the data of expense
         user_name_expense = split_data[0].strip().lower()
 
@@ -51,7 +51,6 @@ class ExpenseManagement:
         # This condition is for the seeing all expenses.
         elif user_name_expense in check_expense_list:
             username = user_name_expense.split(" ")[0]
-            # print(username)
             self.overall_expense(username)
 
             return True
@@ -78,7 +77,6 @@ class ExpenseManagement:
                     db.commit()
                 except ValueError:
                     send_message(self.chat_id, "Please enter a valid amount, valid amount added to the database, non-valid amount is not added.")
-
 
 
             send_message(self.chat_id, f"{username}'s expenses has been added to database\nYour total expense is: {total_expense}")

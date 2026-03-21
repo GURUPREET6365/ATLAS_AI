@@ -21,7 +21,7 @@ async def webhook(request: Request):
     data = await request.json()
     expense_manager = ExpenseManagement()
     # print(data)
-    # extracting chat id
+
     chat_id=data['message']['chat']['id']
     text = data['message'].get('text')
 
