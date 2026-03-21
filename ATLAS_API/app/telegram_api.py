@@ -48,17 +48,17 @@ async def webhook(request: Request):
                 is_expense = expense_manager.check_expense_message(text, chat_id)
                 if is_expense is False:
                     # This client will auto fetch the gemini api key named GEMINI_API_KEY from environment
-                    # client = genai.Client()
-                    #
-                    # response = client.models.generate_content(
-                    #     model="gemini-3-flash-preview", contents=f"{text} "
-                    #                                              f"reply short"
-                    #                                              f"you are ATLAS AI assistant works for me."
-                    #                                              f"details: my name is Gurupreet"
-                    # )
-                    # # print(response)
-                    # send_message(chat_id=chat_id, text=response.text)
-                    send_message(chat_id=chat_id, text="wait for few hours")
+                    client = genai.Client()
+
+                    response = client.models.generate_content(
+                        model="gemini-3-flash-preview", contents=f"{text} "
+                                                                 f"reply short"
+                                                                 f"you are ATLAS AI assistant works for me."
+                                                                 f"details: my name is Gurupreet"
+                    )
+                    # print(response)
+                    send_message(chat_id=chat_id, text=response.text)
+                    # send_message(chat_id=chat_id, text="wait for few hours")
     except Exception as e:
         send_message(chat_id, f"The error is: {e}")
 
