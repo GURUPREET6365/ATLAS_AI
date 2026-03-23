@@ -6,13 +6,9 @@ from ATLAS_API.app.utilities.expense_management import ExpenseManagement
 
 # creating instance of BotCommandsClassifier
 from dotenv import load_dotenv
-import os
+
 
 load_dotenv()
-
-GURUPREET_CHAT_ID=os.getenv('GURUPREET_CHAT_ID')
-
-chat_id_list = [GURUPREET_CHAT_ID]
 
 router = APIRouter(prefix="/telegram", tags=["telegram"])
 
@@ -20,14 +16,14 @@ router = APIRouter(prefix="/telegram", tags=["telegram"])
 async def webhook(request: Request):
     data = await request.json()
     expense_manager = ExpenseManagement()
-    # print(data)
+    print(data)
 
     chat_id=data['message']['chat']['id']
+    # print(chat_id)
     text = data['message'].get('text')
 
     try:
-        # This will return the tuples
-        is_verified, username = chat_id_verification(chat_id)
+        is_verified, username, chat_id = chat_id_verification(chat_id)
         if data['message'] and is_verified:
 
             # Checking that the sticker is sent or not if sent, then no action
@@ -45,7 +41,7 @@ async def webhook(request: Request):
                     classifier.classify(text, chat_id)
 
             else:
-                is_expense = expense_manager.check_expense_message(text, chat_id)
+                is_expense = expense_manager.check_expense_message(text, chat_id, username)
                 if is_expense is False:
                     # This client will auto fetch the gemini api key named GEMINI_API_KEY from environment
                     client = genai.Client()

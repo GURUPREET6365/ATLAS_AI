@@ -66,31 +66,25 @@ class BotCommandsClassifier:
             "/all_expense - Check your all expense till now.\n\n"
 
         )
-        keyboard = {
-            "inline_keyboard": [
-                [
-                    {
-                        "text": "📊 Open Expense Form",
-                        "web_app": {
-                            "url": "https://placeexplorer.kumargurupreet2008.workers.dev/"
-                        }
-                    }
-                ]
-            ]
-        }
 
-        send_message(self.chat_id, help_text, keyboard)
+        send_message(self.chat_id, help_text)
 
     def expense(self):
 
         text = ("""
-yourname expense
-money:reason
-money:reason
+expense
+money,reason
+money,reason
+
+for extra things like water, gas
+expense extra
+money,reason
+
+your extra commands are:
+'water', 'home', 'market', 'gas', 'electricity'
 
 You can register your fix daily expense, where you can only send 'yourname expense' to mark the fix expense you do, like going to office, coaching, college, etc
 
-NOTE: Don't use comma or anything.
 """
         )
 
@@ -106,16 +100,30 @@ NOTE: Don't use comma or anything.
 
     def all_expense(self):
         text = ("""
-yourname expense all
+expense.all
 
+and if extra things like milk, expense.all water
 just send this command for seeing all the expense you did till now.
+
+your extra commands are:
+'water', 'home', 'market', 'gas', 'electricity'
 
 NOTE: for seeing data on specific month or date, or between date, 
 
 Then, send data like:
 
-yourname expense all
-today or month name or from to end date
+expense.all
+today or specific date
+
+or
+
+date1 
+date2
+
+or 
+
+month1
+month2
 
 NOTE: Date format should be like: year-month-date
         """)

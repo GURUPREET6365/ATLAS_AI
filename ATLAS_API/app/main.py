@@ -3,16 +3,16 @@ from contextlib import asynccontextmanager
 from ATLAS_API.app.utilities.utilities import check_battery
 import asyncio
 
-# @asynccontextmanager
-# async def battery_status(app: FastAPI):
-#     # creating task
-#     task = asyncio.create_task(check_battery())
-#     yield
-#     task.cancel()
+@asynccontextmanager
+async def battery_status(app: FastAPI):
+    # creating task
+    task = asyncio.create_task(check_battery())
+    yield
+    task.cancel()
 
 
-# app = FastAPI(lifespan=battery_status)
-app = FastAPI()
+app = FastAPI(lifespan=battery_status)
+# app = FastAPI()
 
 @app.get("/")
 def root():
