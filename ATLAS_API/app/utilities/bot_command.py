@@ -40,7 +40,6 @@ class BotCommandsClassifier:
             "/all_expense":self.all_expense,
 
             # "/bill": self.bill
-
         }
 
     def classify(self, command, chat_id):

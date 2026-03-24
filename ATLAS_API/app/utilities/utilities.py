@@ -2,6 +2,7 @@
 import json
 import requests
 import os
+from google import genai
 import psutil
 import asyncio
 from pathlib import Path
@@ -69,3 +70,13 @@ def chat_id_verification(chat_id:int):
     send_message(chat_id, "Verification failed!")
     return False, None, chat_id
 
+
+def ask_gemini(text):
+    # This client will auto fetch the gemini api key named GEMINI_API_KEY from environment
+    client = genai.Client()
+    prompt = f"""{text}.
+    Reply accurately and average length and readable length, not too much short not too much long, length of the answer should depends on the depth of question.
+"""
+    response = client.models.generate_content(
+        model="gemini-3-flash-preview", contents=prompt)
+    return response.text

@@ -3,6 +3,7 @@ from ATLAS_API.app.utilities.date_parser import command_date_parser
 from ATLAS_API.app.database.models import Expenses
 from ATLAS_API.app.database.database import sessionLocal
 
+list_extra_things = ['water', 'home', 'market', 'gas', 'electricity', 'milk']
 
 # Checking that the user sent the message is for the expense or not?
 class ExpenseManagement:
@@ -24,7 +25,7 @@ class ExpenseManagement:
         command = split_data[0].strip().lower().split(' ')
         print(command)
 
-        list_extra_things = ['water', 'home', 'market', 'gas', 'electricity']
+
         """
         I am making the command like when command:
         expense: Then add the default or add the data sent.
@@ -38,37 +39,45 @@ class ExpenseManagement:
             # Checking that user also sent any other data or not?
             # This is for multiple data
 
-            # Here I am checking that the expense came is for the extras or not, if not then go, and if yes then go to extras func.
-            if len(split_data) > 1 and command[1] not in list_extra_things:
-                # we are making new list where the username_expense element has been removed. It means make new list
-                # from split_data list contains from element 1 to end
-                self.all_expense = split_data[1:]
-
-                # send_message(chat_id, "Found the expense.")
-                self.add_expense()
-                return True
-
             # This is for the normal expenses/default only expenses
-            elif command[1] in list_extra_things:
-                self.username = command[1]
-                self.all_expense = split_data[1:]
-                # send_message(chat_id, f"Found the expense of {self.username}.")
-                self.add_expense()
-                return True
+            # first checking that the len of list is small, if small then don't go here, because error is: list is out of index, here.
+            # if command[1] in list_extra_things:
+            if len(command) > 1:
+                if command[1] in list_extra_things:
+                    self.username = command[1]
+                    self.all_expense = split_data[1:]
+                    # send_message(chat_id, f"Found the expense of {self.username}.")
+                    self.add_expense()
+                    return True
+                else:
+                    send_message(self.chat_id, f'Sorry, {command[1]} is not set in the list.')
+                    return True
 
             else:
-                # print('entering here......')
-                if username == 'gurupreet':
-                    self.amount = 84
-                    self.reason = 'coaching'
+                # Here I am checking that the expense came is for the extras or not, if not then go, and if yes then go to extras func.
+                if len(split_data) > 1:
+                    # we are making new list where the username_expense element has been removed. It means make new list
+                    # from split_data list contains from element 1 to end
+                    self.all_expense = split_data[1:]
 
-                elif username == 'water':
-                    self.amount = 15
-                    self.reason = 'water'
+                    # send_message(chat_id, "Found the expense.")
+                    self.add_expense()
+                    return True
 
-                # send_message(chat_id, "Found the expense of default.")
-                self.add_expense()
-                return True
+
+                else:
+                    # print('entering here......')
+                    if username == 'gurupreet':
+                        self.amount = 84
+                        self.reason = 'coaching'
+
+                    elif username == 'water':
+                        self.amount = 15
+                        self.reason = 'water'
+
+                    # send_message(chat_id, "Found the expense of default.")
+                    self.add_expense()
+                    return True
 
         # This condition is for the seeing all expenses.
         # This is because expense show command will be, ['expense', 'all', 'milk']
@@ -93,7 +102,7 @@ class ExpenseManagement:
         if self.all_expense is not None:
             total_expense = 0
             for expense in self.all_expense:
-                # ['500:metro card recharge', '250: eating']
+                # ['500,metro card recharge', '250,eating']
                 try:
                     each_expense = expense.split(',')
                     amount = each_expense[0].strip()
