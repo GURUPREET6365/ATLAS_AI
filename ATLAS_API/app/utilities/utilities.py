@@ -1,8 +1,7 @@
 # Here I will create the utilities function.
-import json
-import requests
+from ATLAS_API.app.micro_controller.mqtt_pico import send_true, send_false
 import os
-from google import genai
+from ATLAS_API.app.telegram.utilities.send_message import send_message
 import psutil
 import asyncio
 from pathlib import Path
@@ -18,65 +17,29 @@ This gives the url where it is written. Means when it is written in utilities th
 .parent is equivalent of .. which take to the parent directory
 """
 
-BOT_TOKEN=os.getenv('TELEGRAM_BOT_API_TOKEN')
-
-URL = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
 
 # This function is for text to send the message to the telegram
-def send_message(chat_id, text):
-    payload = {
-        "chat_id": chat_id,
-        "text": text,
-    }
 
 
-    requests.post(URL, json=payload)
-
-GURUPREET_CHAT_ID= os.getenv('GURUPREET_CHAT_ID')
+ADMIN_CHAT_ID= os.getenv('ADMIN_CHAT_ID')
 
 async def check_battery():
     while True:
         percent, _, is_charging = psutil.sensors_battery()
+        # if percent <= 100:
         if percent <= 30 and not is_charging:
             text = f"Battery is {int(percent)}% and it's is very low.\n{'Battery is charging' if is_charging else 'Battery is not charging'}"
-            send_message(GURUPREET_CHAT_ID, text)
+            send_message(ADMIN_CHAT_ID, text)
+            send_true()
 
-        elif percent >=99 and is_charging:
-            text = f"Battery is {int(percent)}% and it's is about to full.\n{'Battery is charging' if is_charging else 'Battery is not charging'}"
-            send_message(GURUPREET_CHAT_ID, text)
-        # This asyncio.sleep, is used because it sleep and don't stop the other function from running.
-        await asyncio.sleep(600)
+        #     I will return that is there is need to turn the motor?
+        #     return True
 
-# Importing chat id of all the allowed user
-# ['(8779748119,gurupreet),(90123841,jyoti)']
+        elif percent ==100 and is_charging:
+            text = f"Battery is {int(percent)}% and it's full.\n{'Battery is charging' if is_charging else 'Battery is not charging'}"
+            send_message(ADMIN_CHAT_ID, text)
+            send_false()
+            # This asyncio.sleep, is used because it sleeps and don't stop the other function from running.
+        await asyncio.sleep(10)
+        # return False
 
-"""
-I am storing the list of tuples in sequence wise.
-means same position of the chat id will have same position of the name of the user.
-"""
-
-chat_id_user = ['gurupreet']
-
-chat_id_all = os.getenv('CHAT_ID').split(',')
-
-def chat_id_verification(chat_id:int):
-    # The list of the chat id contains tuple (id, name)
-    for index, each_id in enumerate(chat_id_all) :
-        if int(each_id) == chat_id:
-            # converting into list.
-            return True, chat_id_user[index], each_id
-        send_message(chat_id, "You are not verified to use this bot.\nFor using this bot contact to my boss. \n Email: kumargurupreet2008@gmail.com")
-        return False, None, chat_id
-    send_message(chat_id, "Verification failed!")
-    return False, None, chat_id
-
-
-def ask_gemini(text):
-    # This client will auto fetch the gemini api key named GEMINI_API_KEY from environment
-    client = genai.Client()
-    prompt = f"""{text}.
-    Reply accurately and average length and readable length, not too much short not too much long, length of the answer should depends on the depth of question.
-"""
-    response = client.models.generate_content(
-        model="gemini-3-flash-preview", contents=prompt)
-    return response.text

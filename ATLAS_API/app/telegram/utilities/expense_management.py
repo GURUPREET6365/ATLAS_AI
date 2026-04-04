@@ -1,5 +1,4 @@
-from ATLAS_API.app.utilities.utilities import send_message
-from ATLAS_API.app.utilities.date_parser import command_date_parser
+from ATLAS_API.app.telegram.utilities.send_message import send_message
 from ATLAS_API.app.database.models import Expenses
 from ATLAS_API.app.database.database import sessionLocal
 

@@ -1,7 +1,11 @@
-from fastapi import APIRouter, Request
-from ATLAS_API.app.utilities.utilities import send_message, chat_id_verification, ask_gemini
-from ATLAS_API.app.utilities.bot_command import BotCommandsClassifier
-from ATLAS_API.app.utilities.expense_management import ExpenseManagement
+from fastapi import APIRouter, Request, Depends
+from ATLAS_API.app.database.database import get_db
+from sqlalchemy.orm import Session
+from ATLAS_API.app.utilities.llm_query import ask_gemini
+from ATLAS_API.app.telegram.utilities.chat_id_verification import chat_id_verification
+from ATLAS_API.app.telegram.utilities.send_message import send_message
+from ATLAS_API.app.telegram.utilities.bot_command import BotCommandsClassifier
+from ATLAS_API.app.telegram.utilities.expense_management import ExpenseManagement
 
 # creating instance of BotCommandsClassifier
 from dotenv import load_dotenv
@@ -12,17 +16,18 @@ load_dotenv()
 router = APIRouter(prefix="/telegram", tags=["telegram"])
 
 @router.post('/webhook')
-async def webhook(request: Request):
+async def webhook(request: Request, db: Session=Depends(get_db)):
     data = await request.json()
     expense_manager = ExpenseManagement()
-    print(data)
+    # print(data)
 
     chat_id=data['message']['chat']['id']
     # print(chat_id)
     text = data['message'].get('text')
 
     try:
-        is_verified, username, chat_id = chat_id_verification(chat_id)
+        is_verified, username, chat_id = chat_id_verification(chat_id, db)
+        print('user verified')
         if data['message'] and is_verified:
 
             # Checking that the sticker is sent or not if sent, then no action
@@ -42,11 +47,12 @@ async def webhook(request: Request):
             else:
                 is_expense = expense_manager.check_expense_message(text, chat_id, username)
                 if is_expense is False:
-                    reply = ask_gemini(text)
+                    # reply = ask_gemini(text)
 
                     # print(response)
-                    send_message(chat_id=chat_id, text=reply)
+                    send_message(chat_id=chat_id, text='wait for few hours')
                     # send_message(chat_id=chat_id, text="wait for few hours")
+
     except Exception as e:
         send_message(chat_id, f"The error is: {e}")
 
