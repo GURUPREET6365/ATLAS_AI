@@ -15,13 +15,14 @@ async def on_startup(app: FastAPI):
 origins = [
     "http://127.0.0.1:5500",
     "http://localhost:8080",
-    "http://localhost:5173/"
+    "http://localhost:5173/",
+    "https://scintillating-kelpie-142ff9.netlify.app/"
 ]
 app = FastAPI(lifespan=on_startup)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # for testing (later restrict)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -34,9 +35,10 @@ def root():
 
 
 # including all the router
-from ATLAS_API.app.telegram import telegram_api
+from ATLAS_API.app.telegram import telegram_api, telegram_web
 from ATLAS_API.app.frontend_endpoint import auth
 from ATLAS_API.app.micro_controller import hardware_api
 app.include_router(telegram_api.router)
 app.include_router(auth.router)
 app.include_router(hardware_api.router)
+app.include_router(telegram_web.router)

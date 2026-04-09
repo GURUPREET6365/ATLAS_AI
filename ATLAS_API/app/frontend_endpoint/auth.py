@@ -28,3 +28,7 @@ def login(request: LoginRequest, db: Session = Depends(get_db)):
 @router.get('/me', status_code=status.HTTP_200_OK, response_model=UserResponse)
 def get_me(current_user=Depends(get_current_user)):
     return current_user
+
+@router.post('/google/auth')
+def google_auth(client_id,  db: Session = Depends(get_db)):
+    pass

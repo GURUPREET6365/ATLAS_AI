@@ -11,7 +11,7 @@ class Expenses(Base):
 
     id = Column(Integer, primary_key=True, nullable=False, index=True)
     user_id = Column(Integer, ForeignKey('users.id'), nullable=True)
-    user = Column(String, nullable=False)
+    title = Column(String, nullable=True)
     amount = Column(Integer, nullable=True)
     reason = Column(String, nullable=True)
     expense_date = Column(
@@ -24,11 +24,8 @@ class User(Base):
     id = Column(Integer, primary_key=True, nullable=False, index=True)
     first_name = Column(String, nullable=False)
     last_name = Column(String, nullable=True)
-    email = Column(String, nullable=False, unique=True)
-    role = Column(String, nullable=False)
+    role = Column(String, nullable=False, default='user')
     chat_id = Column(String, nullable=True)
-    password = Column(String, nullable=False)
-    phone_number = Column(String, nullable=False, unique=True)
     created_at = Column(
         DateTime(timezone=True),
         server_default=func.now()

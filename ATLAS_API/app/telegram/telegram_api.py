@@ -5,8 +5,6 @@ from ATLAS_API.app.utilities.llm_query import ask_gemini
 from ATLAS_API.app.telegram.utilities.chat_id_verification import chat_id_verification
 from ATLAS_API.app.telegram.utilities.send_message import send_message
 from ATLAS_API.app.telegram.utilities.bot_command import BotCommandsClassifier
-from ATLAS_API.app.telegram.utilities.expense_management import ExpenseManagement
-
 # creating instance of BotCommandsClassifier
 from dotenv import load_dotenv
 
@@ -18,16 +16,18 @@ router = APIRouter(prefix="/telegram", tags=["telegram"])
 @router.post('/webhook')
 async def webhook(request: Request, db: Session=Depends(get_db)):
     data = await request.json()
-    expense_manager = ExpenseManagement()
-    # print(data)
+    print(data)
 
     chat_id=data['message']['chat']['id']
+    is_bot=data['message']['from']['is_bot']
+    first_name=data['message']['from']['first_name']
+    username = data['message']['from']['username']
     # print(chat_id)
     text = data['message'].get('text')
 
     try:
-        is_verified, username, chat_id = chat_id_verification(chat_id, db)
-        print('user verified')
+        is_verified, username, chat_id, is_admin = chat_id_verification(chat_id, db, is_bot,first_name,username)
+        # print('user verified')
         if data['message'] and is_verified:
 
             # Checking that the sticker is sent or not if sent, then no action
@@ -38,11 +38,11 @@ async def webhook(request: Request, db: Session=Depends(get_db)):
 
             elif data['message'].get('entities'):
                 classifier = BotCommandsClassifier()
-
+                print(text)
             #     checking that is it a bot command?
                 entities = data['message'].get('entities')[0].get('type')
                 if entities == 'bot_command':
-                    classifier.classify(text, chat_id)
+                    classifier.classify(text, chat_id, is_admin)
 
             else:
                 is_expense = expense_manager.check_expense_message(text, chat_id, username)

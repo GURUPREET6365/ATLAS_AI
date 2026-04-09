@@ -19,8 +19,8 @@ client.loop_start()
 
 def send_true():
     # print('send true')
-    client.publish("laptop/battery/switch/control", "true")
-    send_message(ADMIN_CHAT_ID, 'Now your laptop is charging!')
+    # send_message(ADMIN_CHAT_ID, 'Sent message for turning on the motor.')
+    client.publish("laptop/battery/switch/control", "true", qos=0, retain=False)
 
 def send_false():
     client.publish("laptop/battery/switch/control", "false")

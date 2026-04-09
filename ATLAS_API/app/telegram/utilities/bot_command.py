@@ -2,54 +2,55 @@ from ATLAS_API.app.telegram.utilities.send_message import send_message
 from ATLAS_API.app.database.database import sessionLocal
 # creating the db connection, so that I can execute it
 import psutil
+from ATLAS_API.app.micro_controller.mqtt_pico import send_true
 
 
 """
 1. Functions Can Be Stored in Variables
 def hello():
     print("Hello")
-
 You can store the function in a variable:
-
 x = hello
-
 Now x points to the function.
-
 Calling it:
-
 x()
-
 Output:
-
-Hello
-
+Hell
 So:
-
 x -> hello()
 """
 
+
+def turn_switch_on():
+    send_true()
+
+
 class BotCommandsClassifier:
     def __init__(self):
+        # initializing database from here, not from the endpoints.
         self.db = sessionLocal()
 
+        self.is_admin=False
         self.chat_id = None
         self.commands = {
             "/start":self.start,
-            "/expense":self.expense,
+            "/add_expense":self.add_expense,
             "/battery":self.battery_status,
-            "/all_expense":self.all_expense,
-
+            "/view_expense":self.view_expense,
+            "/add_user":self.add_user,
+            "/turn_switch_on": turn_switch_on,
             # "/bill": self.bill
         }
 
-    def classify(self, command, chat_id):
+    def classify(self, command, chat_id, is_admin):
+        print(command)
         self.chat_id = chat_id
+        self.is_admin=is_admin
         if command in self.commands:
-            return self.commands[command]()
-        return None
+            self.commands[command]()
 
-    # now creating a functions for each commands.
 
+    # now creating a functions for each command.
     def start(self):
         help_text = (
             "🚀 * Atlas Assistant Activated * \n\n"
@@ -58,36 +59,29 @@ class BotCommandsClassifier:
 
             "🚀 *Basic Commands*\n"
             "/start - Start the bot / Welcome message\n\n"
-            "/expense - Click to see the format of sending the expense.\n\n"
+            "/add_expense - Click to send the expense.\n\n"
             
             "/battery - Check that battery status.\n\n"
             
-            "/all_expense - Check your all expense till now.\n\n"
+            "/view_expense - View your expense.\n\n"
+            
+            f"{"/add_user - Add a user to your account."if self.is_admin else ''}\n\n"
+            
+            f"{"/turn_switch_on - Turn the switch on."if self.is_admin else ''}\n\n"
+
+
 
         )
 
         send_message(self.chat_id, help_text)
 
-    def expense(self):
-
-        text = ("""
-expense
-money,reason
-money,reason
-
-for extra things like water, gas
-expense extra
-money,reason
-
-your extra commands are:
-'water', 'home', 'market', 'gas', 'electricity'
-
-You can register your fix daily expense, where you can only send 'yourname expense' to mark the fix expense you do, like going to office, coaching, college, etc
-
-"""
-        )
-
-        send_message(self.chat_id, text)
+    def add_expense(self):
+        keyboard = [
+            [
+                {"text": "Open Add Expense Page", "web_app": {"url": "https://atalsai.netlify.app/add-expense.html"}}
+            ]
+        ]
+        send_message(self.chat_id, 'click the button to open the web page', keyboard)
 
 
     def battery_status(self):
@@ -97,33 +91,15 @@ You can register your fix daily expense, where you can only send 'yourname expen
         send_message(self.chat_id, text)
         # print('message sent')
 
-    def all_expense(self):
-        text = ("""
-expense.all
+    def view_expense(self):
+        keyboard = [
+            [
+                {"text": "Open View Expense Page", "web_app": {"url": "https://atalsai.netlify.app/expense"}}
+            ]
+        ]
+        send_message(self.chat_id, 'click the button to open the web page', keyboard)
 
-and if extra things like milk, expense.all water
-just send this command for seeing all the expense you did till now.
+    def add_user(self):
+        send_message(self.chat_id, "you are in adding user page.")
 
-your extra commands are:
-'water', 'home', 'market', 'gas', 'electricity'
 
-NOTE: for seeing data on specific month or date, or between date, 
-
-Then, send data like:
-
-expense.all
-today or specific date
-
-or
-
-date1 
-date2
-
-or 
-
-month1
-month2
-
-NOTE: Date format should be like: year-month-date
-        """)
-        send_message(self.chat_id, text)

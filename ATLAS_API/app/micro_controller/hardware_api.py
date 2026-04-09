@@ -10,15 +10,3 @@ router = APIRouter(prefix="/hardware", tags=["hardware"])
 ADMIN_CHAT_ID= os.getenv('ADMIN_CHAT_ID')
 
 
-@router.get('/battery/controller')
-async def battery_controller():
-    # print('request hit hua hai')
-    bot_commands = BotCommandsClassifier()
-    # print("checking battery")
-    is_turn_motor = check_battery()
-    if await is_turn_motor:
-        # print('server want to turn the motor on.')
-        bot_commands.battery_status()
-        return True
-    # print('server do not want to turn the motor on. ')
-    return False

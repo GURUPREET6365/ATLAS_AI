@@ -40,3 +40,4 @@ websockets==16.0
 
 protobuf
 uliweb-alembic
+fastapi-mail

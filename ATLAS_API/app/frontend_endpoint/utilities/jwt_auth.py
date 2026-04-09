@@ -42,8 +42,8 @@ def verify_access_token(token: str, credentials_exception):
          because by chance if the token is not, this method will give error that will crash the server.
 
         """
-        id: int = payload.get('id')
-        email = payload.get('email')
+        id:int = payload.get('id')
+        email: str = payload.get('email')
         # This type of colon is used to show that we here id, will only accept the string.
         # print(id, email)
         if id is None:
@@ -73,3 +73,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     if current_user is None:
         raise credentials_exception
     return current_user
+
+
+def google_token_verification(client_id):
+    pass
