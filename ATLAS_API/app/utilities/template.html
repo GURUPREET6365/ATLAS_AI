@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<body style="margin:0; padding:0; background:#f4f6f8; font-family:Arial;">
+
+<div style="max-width:600px; margin:20px auto; background:white; border-radius:10px; overflow:hidden;">
+
+  <!-- Header -->
+  <div style="background:#d32f2f; color:white; padding:15px;">
+    <h2 style="margin:0;">🚨 Unauthorized Access Alert</h2>
+  </div>
+
+  <!-- Body -->
+  <div style="padding:20px; color:#333;">
+
+    <p>An unverified user tried to access your bot.</p>
+
+    <div style="background:#f1f1f1; padding:15px; border-radius:8px; font-size:14px;">
+
+      <p><b>Chat ID:</b> {{ chat_id }}</p>
+
+      <p><b>Username:</b>
+        {% if username %}
+          @{{ username }}
+        {% else %}
+          N/A
+        {% endif %}
+      </p>
+
+      <p><b>First Name:</b> {{ first_name }}</p>
+
+      <p><b>Bot Account:</b>
+        {% if is_bot %}
+          Yes 🤖
+        {% else %}
+          No 👤
+        {% endif %}
+      </p>
+
+      <p><b>Time:</b> {{ time }}</p>
+
+    </div>
+
+    <p style="margin-top:15px;">
+      If this is unexpected, review your bot security.
+    </p>
+
+  </div>
+
+  <!-- Footer -->
+  <div style="background:#fafafa; padding:10px; text-align:center; font-size:12px; color:#888;">
+    Atlas Security System
+  </div>
+
+</div>
+
+</body>
+</html>
