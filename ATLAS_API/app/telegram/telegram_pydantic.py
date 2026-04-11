@@ -24,6 +24,7 @@ class AddExpense(BaseModel):
 # ===================== SENDING ================================
 
 class SendExpense(BaseModel):
+    id:int
     title: Optional[str] = None
     amount:int
     reason:str
@@ -32,3 +33,10 @@ class SendExpense(BaseModel):
     # This allows Pydantic to read 'Expenses' object attributes directly
     model_config = ConfigDict(from_attributes=True)
 
+
+# ====================== DELETE ================================
+
+class DeleteExpense(BaseModel):
+    id:int
+    chat_id: int
+    

@@ -21,7 +21,7 @@ async def webhook(request: Request, db: Session=Depends(get_db)):
     chat_id=data['message']['chat']['id']
     is_bot=data['message']['from']['is_bot']
     first_name=data['message']['from']['first_name']
-    username = data['message']['from']['username']
+    username = data['message']['from'].get('username')
     # print(chat_id)
     text = data['message'].get('text')
 
