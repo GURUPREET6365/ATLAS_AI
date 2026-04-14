@@ -1,3 +1,4 @@
 .env
 .venv
 ATLAS_API/SECURED_DATA/
+docker-compose.yaml
