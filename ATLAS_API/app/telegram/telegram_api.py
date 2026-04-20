@@ -16,7 +16,7 @@ router = APIRouter(prefix="/telegram", tags=["telegram"])
 @router.post('/webhook')
 async def webhook(request: Request, db: Session=Depends(get_db)):
     data = await request.json()
-    print(data)
+    # print(data)
 
     chat_id=data['message']['chat']['id']
     is_bot=data['message']['from']['is_bot']
@@ -37,23 +37,21 @@ async def webhook(request: Request, db: Session=Depends(get_db)):
                 send_message(chat_id=chat_id, text="These features is not available.....")
 
             elif data['message'].get('entities'):
-                classifier = BotCommandsClassifier()
-                print(text)
+                classifier = BotCommandsClassifier(text, chat_id, is_admin)
             #     checking that is it a bot command?
                 entities = data['message'].get('entities')[0].get('type')
                 if entities == 'bot_command':
-                    classifier.classify(text, chat_id, is_admin)
+                    classifier.classify()
+
 
             else:
-                is_expense = expense_manager.check_expense_message(text, chat_id, username)
-                if is_expense is False:
-                    # reply = ask_gemini(text)
+                reply = ask_gemini(text)
 
-                    # print(response)
-                    send_message(chat_id=chat_id, text='wait for few hours')
-                    # send_message(chat_id=chat_id, text="wait for few hours")
+                # print(response)
+                # send_message(chat_id=chat_id, text='wait for few hours')
+                send_message(chat_id=chat_id, text=reply)
 
     except Exception as e:
-        send_message(chat_id, f"The error is: {e}")
+        send_message(chat_id, f"Error From Telegram API File Is:\n{e}")
 
     return {"ok": True}

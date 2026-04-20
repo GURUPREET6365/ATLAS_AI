@@ -13,7 +13,6 @@ def ask_gemini(text):
     prompt = f"""{text}"""
     response = client.models.generate_content(
         model="gemini-3-flash-preview", contents=[prompt])
-    print(response.text)
     return response.text
 
 # ask_gemini("give me the structured data if there is query for expense."

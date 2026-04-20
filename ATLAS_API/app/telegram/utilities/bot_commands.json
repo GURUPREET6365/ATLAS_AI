@@ -1,0 +1,65 @@
+{
+  "start": {
+    "title": "Atlas Assistant Activated",
+    "message": "Hello Boss! 👋\n🤖 Atlas Commands",
+    "commands": [
+      {
+        "name": "/expense",
+        "label": "Expense",
+        "type": "menu",
+        "target": "expense"
+      },
+      {
+        "name": "/battery_and_power_mode",
+        "label": "Battery & Power",
+        "type": "menu",
+        "target": "battery",
+        "admin_only": true
+      },
+      {
+        "name": "/add_user",
+        "label": "Add User",
+        "type": "action",
+        "admin_only": true
+      },
+      {
+        "name": "/turn_switch_on",
+        "label": "Turn Switch On",
+        "type": "action",
+        "admin_only": true
+      }
+    ]
+  },
+
+  "expense": {
+    "title": "💰 Expense Manager",
+    "message": "Manage your expenses",
+    "commands": [
+      {
+        "name": "/view_expense",
+        "label": "View Expense",
+        "type": "web_app",
+        "url": "https://atalsai.netlify.app/expense"
+      },
+      {
+        "name": "/add_expense",
+        "label": "Add Expense",
+        "type": "web_app",
+        "url": "https://atalsai.netlify.app/add-expense.html"
+      }
+    ]
+  },
+
+  "battery": {
+    "title": "🔋 Battery & Power",
+    "message": "Control and monitor power",
+    "commands": [
+      {
+        "name": "/battery",
+        "label": "Check Battery",
+        "type": "action",
+        "function": "battery_status"
+      }
+    ]
+  }
+}
