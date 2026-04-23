@@ -16,11 +16,11 @@ def chat_id_verification(chat_id, db, is_bot = None,first_name = None,username =
     # print(user)
     # print(user.role)
     if user is None:
-        message = "You are not verified!\nSend message to the my boss.\nEmail:kumargururpreet2008@gmail.com"
+        message = "You are not verified!\nSend message to the my boss.\nEmail: kumargururpreet2008@gmail.com"
         send_message(chat_id, message)
-        admin_message = f'Hey boss! An unverified user tried to access your bot.\nHis chat id is: {chat_id}\nFirst name is: {first_name}'
+        admin_message = f'Hey boss! An unverified user tried to access your bot.\nDetails:\nChat ID: {chat_id}\nFirst Name: {first_name}'
         send_message(ADMIN_CHAT_ID, admin_message)
-        asyncio.run(send_email('Unauthorized Access', int(chat_id), first_name, username, is_bot))
+        # send_email('Unauthorized Access', int(chat_id), first_name, username, is_bot)
 
         return False, None, chat_id, is_admin
 

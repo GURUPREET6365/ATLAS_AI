@@ -66,21 +66,26 @@ RuntimeWarning: Enable tracemalloc to get the object allocation traceback
 """
 
 def build_email_template(chat_id, first_name, username, bot:bool):
-    with open('template.html', 'r') as f:
-        template = Template(f.read())
+    try:
 
-    time=datetime.now().time().strftime("%H:%M")
-    rendering_template = template.render(chat_id=chat_id,
-    first_name=first_name,
-    username=username,
-    bot=bot,
-    time=time)
-    return rendering_template
+        with open('template.html', 'r') as f:
+            template = Template(f.read())
+
+        time=datetime.now().time().strftime("%H:%M")
+        rendering_template = template.render(chat_id=chat_id,
+        first_name=first_name,
+        username=username,
+        bot=bot,
+        time=time)
+        return rendering_template
+    except FileNotFoundError:
+        send_message(ADMIN_CHAT_ID, 'Error From build email template:\nFile not found.')
 
 
 # because the send_message is async function.
-async def send_email(subject:str, chat_id:int, first_name:str, username:str, bot):
+def send_email(subject:str, chat_id:int, first_name:str, username:str, bot):
     body = build_email_template(chat_id, first_name, username, bot)
+    print("I am in the email function")
     message = MessageSchema(
         subject=subject,
         recipients=[
@@ -93,8 +98,8 @@ async def send_email(subject:str, chat_id:int, first_name:str, username:str, bot
     email = FastMail(conf)
     try:
 
-        await email.send_message(message)
         send_message(ADMIN_CHAT_ID, 'An warning sent to your email.')
+        email.send_message(message)
     except Exception as e:
         print(e)
 

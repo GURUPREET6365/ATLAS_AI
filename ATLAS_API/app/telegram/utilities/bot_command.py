@@ -51,41 +51,39 @@ class BotCommandsClassifier:
         # initializing database from here, not from the endpoints.
         self.db = sessionLocal()
 
-        # self.commands = {
-        #     "/start":self.start,
-        #
-        #     # ================= EXPENSE ====================
-        #     "/expense":self.expense,
-        #     "/add_expense":self.add_expense,
-        #     "/view_expense":self.view_expense,
-        #
-        #     # ================= BATTERY AND POWER MODE ====================
-        #     "/battery_and_power_mode":self.battery_and_power_mode,
-        #     "/battery":self.battery_status,
-        #
-        #     # ================= MICROCONTROLLERS ========================
-        #     "/turn_switch_on": turn_switch_on,
-        #     "/add_user":self.add_user,
-        #     # "/bill": self.bill
-        # }
+        self.commands = {
+            "/start":self.start,
+        
+            # ================= EXPENSE ====================
+            "/expense":self.expense,
+            "/add_expense":self.add_expense,
+            "/view_expense":self.view_expense,
+        
+            # ================= BATTERY AND POWER MODE ====================
+            "/battery_and_power_mode":self.battery_and_power_mode,
+            "/battery":self.battery_status,
+        
+            # ================= MICROCONTROLLERS ========================
+            "/turn_switch_on": turn_switch_on,
+            "/add_user":self.add_user,
+            # "/bill": self.bill
+        }
 
 
-    def classify(self):
-        print(self.all_command)
-    # def classify(self, command, chat_id, is_admin):
-    #     self.chat_id = chat_id
-    #     self.is_admin=is_admin
-    #     # if command in self.commands:
-    #     #     self.commands[command]()
-    #     print(self.all_commands)
+    # def classify(self):
+    #     print(self.all_command)
+    def classify(self, command, chat_id, is_admin):
+        self.chat_id=chat_id
+        self.is_admin=is_admin
+        if command in self.commands:
+            self.commands[command]()
+        # print(self.all_commands)
 
 
     # now creating a functions for each command.
     def start(self):
         help_text = (
-            "🚀 * Atlas Assistant Activated * \n\n"
-            "Hello Boss! 👋\n"
-            "🤖 *Atlas Commands*\n\n"
+            "* Atlas Assistant Activated * \n\n"
 
             "/start - Start assistant.\n\n"
             

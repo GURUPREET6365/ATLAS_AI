@@ -41,7 +41,7 @@ async def webhook(request: Request, db: Session=Depends(get_db)):
             #     checking that is it a bot command?
                 entities = data['message'].get('entities')[0].get('type')
                 if entities == 'bot_command':
-                    classifier.classify()
+                    classifier.classify(text, chat_id, is_admin)
 
 
             else:
